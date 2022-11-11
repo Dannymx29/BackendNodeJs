@@ -1,114 +1,93 @@
 const express = require('express');
-
+const faker = require('faker');
 const app = express();
-
-const port = 3434;
+const port = 3000;
 
 
 app.get('/', (req, res) => {
-  res.send('<h1>Welcome!</h1><p>this is server whit express!</p>');
-})
+  res.send('Bienvenido');
+});
 
 app.get('/home', (req, res) => {
-  res.send('<h1>Home</h1><p>this is the Home</p>')
-})
+  res.send('Home')
+});
 
-app.get('/product', (req, res) => {
-  res.json([
-    {
-      nombre: "Product 1",
-      precio: 234
-    },
-    {
-      nombre: "Product 2",
-      precio: 223
-    },
-    {
-      nombre: "Product 3",
-      precio: 123
-    },
-    {
-      nombre: "Product 4",
-      precio: 423
-    },
-    {
-      nombre: "Product 5",
-      precio: 312
-    }
-  ])
-})
+app.get('/products', (req, res) => {
+  const productos = [];
+  const { size } = req.query;
+  const limit = size || 10;
+  for (let i = 0; i < limit; i++){
+    productos.push({
+      name: faker.commerce.productName(),
+      price: parseInt(faker.commerce.price(), 10),
+      image: faker.image.imageUrl(),
+    });
+  };
+  res.json(productos);
+});
+
+app.get('/products/filter', (req, res) => {
+  res.send('yo soy un filtro');
+});
 
 app.get('/categories', (req, res) => {
   res.json([
     {
-      nombre: "Category 1",
+      nombre: "Categoria 1",
       cantidad: 234
     },
     {
-      nombre: "Category 2",
+      nombre: "Categoria 2",
       cantidad: 223
     },
     {
-      nombre: "Category 3",
+      nombre: "Categoria 3",
       cantidad: 123
     },
     {
-      nombre: "Category 4",
+      nombre: "Categoria 4",
       cantidad: 423
     },
     {
-      nombre: "Category 5",
+      nombre: "Categoria 5",
       cantidad: 312
     }
   ])
-})
+});
 
 app.get('/users', (req, res) => {
-  res.json([
-    {
-      nombre: "User 1",
-      age: 34
-    },
-    {
-      nombre: "User 2",
-      age: 32
-    },
-    {
-      nombre: "User 3",
-      age: 25
-    },
-    {
-      nombre: "User 4",
-      age: 40
-    },
-    {
-      nombre: "User 5",
-      age: 27
-    }
-  ])
-})
+  const { limit, offset } = req.query;
+  if (limit && offset){
+    res.json({
+      limit,
+      offset
+    });
+  } else {
+    res.send('sin parametros')
+  }
+});
 
 app.get('/categories/:id', (req, res) => {
   const id = req.params.id;
   res.json(
     {
       id,
-      nombre: `Category ${id}`,
+      nombre: `Categoria ${id}`,
       cantidad: 312
     }
   )
-})
+});
 
 app.get('/product/:id', (req, res) => {
   const id = req.params.id;
   res.json(
     {
       id,
-      nombre: `Product ${id}`,
+      nombre: `Producto ${id}`,
       precio: 390
     }
   )
-})
+});
 
 app.get('/users/:id', (req, res) => {
   const id = req.params.id;
@@ -119,7 +98,7 @@ app.get('/users/:id', (req, res) => {
       age: 27
     }
   )
-})
+});
 
 app.get('/categories/:categoryId/product/:productId', (req, res) => {
   const { categoryId, productId } = req.params;
@@ -129,7 +108,7 @@ app.get('/categories/:categoryId/product/:productId', (req, res) => {
       productId
     }
   )
-})
+});
 
 app.get('/users/:userId/categories/:categoryId/product/:productId', (req, res) => {
   const { userId, categoryId, productId } = req.params;
@@ -140,8 +119,8 @@ app.get('/users/:userId/categories/:categoryId/product/:productId', (req, res) =
       productId
     }
   )
-})
+});
 
 app.listen(port, () => {
   console.log(`run server in port: ${port}`);
-})
+});
