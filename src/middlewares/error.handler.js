@@ -12,4 +12,12 @@ function errorHandler(err, req, res, netx){
   });
 }
 
-module.exports = { logErrors, errorHandler }
+function boomErrorHandler(err, req, res, netx){
+  if (err.isBoom){
+    const { output } = err;
+    res.status(output.statusCode).json(output.payload)
+  }
+  netx(err)
+}
+
+module.exports = { logErrors, errorHandler, boomErrorHandler}

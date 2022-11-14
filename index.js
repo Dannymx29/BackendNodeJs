@@ -1,7 +1,7 @@
 const express = require('express');
 const routerApi = require('./src/routes');
 
-const { logErrors, errorHandler} = require('./src/middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler} = require('./src/middlewares/error.handler');
 
 const app = express();
 const port = 3000;
@@ -19,6 +19,7 @@ app.get('/home', (req, res) => {
 routerApi(app);
 
 app.use(logErrors);//middlewares
+app.use(boomErrorHandler)
 app.use(errorHandler);//este middlerware es para no seguir el proceso
 
 app.listen(port, () => {
