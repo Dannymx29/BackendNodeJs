@@ -29,11 +29,11 @@ class ProductsService {
     return newProduct;
   }
 
-  async find(){
+  find(){
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.products);
-      }, 5000);
+      }, 3000);
     })
   }
 
