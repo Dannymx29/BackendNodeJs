@@ -8,9 +8,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-routerApi(app);
 
-const whitelist = ['http://localhost:8080', 'https://myapp.co'];
+const whitelist = ['http://localhost:8080'];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {
@@ -30,7 +29,7 @@ app.get('/home', (req, res) => {
   res.send('Home')
 });
 
-
+routerApi(app);
 
 app.use(logErrors);//middlewares
 app.use(boomErrorHandler)

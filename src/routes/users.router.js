@@ -1,5 +1,10 @@
 const express = require('express');
 
+const UserService = require('./../services/user.service');
+const validatorHandler = require('./../middlewares/validator.handler');
+const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema');
+
+const service = new UserService();
 const router = express.Router();
 
 router.get('/', (req, res) => {
