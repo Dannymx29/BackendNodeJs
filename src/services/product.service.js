@@ -28,7 +28,7 @@ class ProductsService {
     return newProduct;
   }
 
-  find(){
+  async find(){
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(this.products);
@@ -37,6 +37,7 @@ class ProductsService {
   }
 
   async findOne(id){
+    const md = this.getTotal();
     return this.products.find(item => item.id === id);
   }
 
